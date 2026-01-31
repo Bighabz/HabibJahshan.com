@@ -361,6 +361,18 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
         }
 
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white);
+            border: 2px solid transparent;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 153, 255, 0.4);
+            border-color: var(--accent);
+        }
+
         @media (max-width: 768px) {
             #boot-screen {
                 font-size: 0.9rem;
@@ -635,8 +647,12 @@
             <!-- CTA -->
             <div class="cta-section">
                 <h2>Ready to automate your business?</h2>
-                <p>Book a free 30-minute call to discuss your needs.</p>
-                <a href="https://calendly.com/habibj97/30min" target="_blank" class="btn btn-primary">Book a Call</a>
+                <p>Book a free 30-minute consultation or call our AI assistant now.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="https://calendly.com/habibjahshan2026/30min" target="_blank" class="btn btn-primary">📅 Book a Call</a>
+                    <a href="tel:+14243988546" class="btn btn-secondary">📞 Call Now (424) 398-8546</a>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">Our AI assistant is available 24/7</p>
             </div>
         </div>
     </div>
