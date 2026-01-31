@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habib Jahshan | AI Automation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0099ff;
+            --accent: #00d4ff;
+            --dark: #0a0a0a;
+            --gray-dark: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        #boot-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 2;
+            font-size: 1.1rem;
+        }
+
+        .boot-line {
+            opacity: 0;
+            animation: fadeIn 0.2s forwards;
+            color: var(--primary);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        #main-content {
+            display: none;
+        }
+
+        #main-content.show {
+            display: block;
+            animation: fadeIn 1s;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        nav {
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        nav h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 1rem 0 1.5rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .gradient {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section {
+            margin: 0 0 3rem;
+            padding: 2rem;
+            background: var(--gray-dark);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .photo-container {
+            min-width: 200px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 4px;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .photo-inner {
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/habib-photo.jpg');
+            background-size: 120%;
+            background-position: center center;
+            border-radius: 50%;
+        }
+
+        .bio h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .bio p {
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.75rem;
+        }
+
+        .packages-section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .disclaimer {
+            background: rgba(233, 53, 193, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .disclaimer p {
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+        }
+
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .package-card {
+            background: var(--gray-dark);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .package-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(233, 53, 193, 0.3);
+        }
+
+        .package-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-card .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .package-card p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .package-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .package-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .package-card li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .package-card .sub-service {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .package-card .sub-service h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .category-header {
+            text-align: center;
+            margin: 4rem 0 2rem;
+        }
+
+        .category-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-header p {
+            color: #ccc;
+            font-style: italic;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(233, 53, 193, 0.75), rgba(0, 0, 0, 0));
+            margin: 60px 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 4rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 4rem 2rem;
+            border-radius: 20px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            #boot-screen {
+                font-size: 0.9rem;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Tighter mobile spacing */
+            .container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 0.5rem 0 0.75rem;
+            }
+
+            .about-section {
+                margin: 0 0 1.5rem;
+                padding: 1rem;
+            }
+
+            .packages-section {
+                margin: 2rem 0;
+            }
+
+            .section-title {
+                margin-bottom: 0.5rem;
+            }
+
+            .package-card {
+                margin-bottom: 1rem;
+            }
+
+            .cta-section {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="boot-screen">
+        <div id="boot-lines"></div>
+    </div>
+
+    <div id="main-content">
+        <nav>
+            <h1>HabibJahshan.com</h1>
+        </nav>
+
+        <div class="container">
+            <!-- Hero -->
+            <div class="hero">
+                <h1>
+                    <span class="gradient">AI Automation</span><br>
+                    for Your Business
+                </h1>
+                <p class="subtitle">
+                    I build AI systems that handle customer calls, messages, bookings, and follow-ups automatically.
+                </p>
+            </div>
+
+            <!-- About / Meet Habib -->
+            <div class="about-section">
+                <div class="about-content">
+                    <div class="photo-container">
+                        <div class="photo-inner"></div>
+                    </div>
+                    <div class="bio">
+                        <h2><span class="gradient">Hi, I'm Habib!</span></h2>
+                        <p>I build AI automation systems that handle the work most businesses hate doing.</p>
+                        <p>My background in cybersecurity means your data stays secure and your systems run reliably. I specialize in creating AI agents that answer calls, respond to messages, book appointments, and follow up with customers automatically.</p>
+                        <p>Based in Southern California. Currently working with local businesses to automate their customer communication and retention.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Packages -->
+            <div class="packages-section">
+                <h2 class="section-title"><span class="gradient">Services and Packages</span></h2>
+                
+                <div class="disclaimer">
+                    <p><strong>Note:</strong> All packages are individualized and prices below are estimates. Please book a call for a quote.</p>
+                </div>
+
+                <!-- Website Package -->
+                <div class="package-grid">
+                    <div class="package-card">
+                        <h3>Website Package</h3>
+                        <div class="price">From $49/month</div>
+                        <p>Professional website for your business with everything you need to get found online.</p>
+                        <ul>
+                            <li>Custom landing page</li>
+                            <li>About and services pages</li>
+                            <li>Calendly booking integration</li>
+                            <li>Mobile responsive</li>
+                            <li>SEO optimized</li>
+                            <li>Hosting included</li>
+                            <li>AI-Ready Infrastructure (Seamlessly add bots later)</li>
+                            <li>Google Analytics Dashboard Setup</li>
+                            <li>Speed Optimized (Under 2s Load Time)</li>
+                        </ul>
+                    </div>
+
+                    <!-- AI Automation (Grouped) -->
+                    <div class="package-card">
+                        <h3>AI Automation Services</h3>
+                        <div class="price">Starting at $100/month</div>
+                        <p>AI systems that handle customer communication, booking, and follow-up automatically.</p>
+                        
+                        <div class="sub-service">
+                            <h4>24/7 AI Receptionist</h4>
+                            <ul>
+                                <li>Answers calls 24/7</li>
+                                <li>Books appointments automatically</li>
+                                <li>Pre-qualifies leads</li>
+                                <li>Natural conversation</li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-service">
+                            <h4>Instant Lead Capture System</h4>
+                            <ul>
+                                <li>Responds to SMS/email instantly</li>
+                                <li>Trained on your business</li>
+                                <li>Answers FAQs automatically</li>
+                                <li>Books via text</li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-service">
+                            <h4>Client Reactivation Engine</h4>
+                            <ul>
+                                <li>Thank-you messages</li>
+                                <li>Review requests</li>
+                                <li>Special offers to past customers</li>
+                                <li>Re-engagement campaigns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing & Growth (Separated) -->
+                <hr class="divider">
+
+                <div class="category-header">
+                    <h2><span class="gradient">Marketing and Growth</span></h2>
+                    <p>Fuel for your automation systems</p>
+                </div>
+
+                <div class="package-grid">
+                    <div class="package-card">
+                        <h3>SEO and Content</h3>
+                        <div class="price">$200/month</div>
+                        <p>Get found on Google with SEO-optimized content and local search optimization.</p>
+                        <ul>
+                            <li>Google Business Profile optimization</li>
+                            <li>2-4 AI-written, human-reviewed blog posts</li>
+                            <li>Local keyword research & ranking</li>
+                            <li>Monthly performance reports</li>
+                        </ul>
+                    </div>
+
+                    <div class="package-card">
+                        <h3>Ads and UGC Content</h3>
+                        <div class="price">$300/month <span style="font-size: 0.8rem; opacity: 0.8;">+ ad spend</span></div>
+                        <p>User-generated content style ads that actually convert on Facebook, Instagram, and Google.</p>
+                        <ul>
+                            <li>UGC-style video ads (authentic, not corporate)</li>
+                            <li>Campaign management & optimization</li>
+                            <li>Audience targeting</li>
+                            <li><em style="color: rgba(255,255,255,0.7);">*Ad budget is separate</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-section">
+                <h2>Ready to automate your business?</h2>
+                <p>Book a free 30-minute call to discuss your needs.</p>
+                <a href="https://calendly.com/habibj97/30min" target="_blank" class="btn btn-primary">Book a Call</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bootLines = [
+            '$ Initializing system...',
+            '$ Loading modules...',
+            '$ [OK] AI automation engine loaded',
+            '$ [OK] Voice bot system online',
+            '$ [OK] RAG pipeline ready',
+            '$ [OK] Retention system active',
+            '$ System ready. Welcome.',
+            '',
+            '$ Starting interface...'
+        ];
+
+        let lineIndex = 0;
+        const bootContainer = document.getElementById('boot-lines');
+
+        function displayBootLine() {
+            if (lineIndex < bootLines.length) {
+                const line = document.createElement('div');
+                line.className = 'boot-line';
+                line.textContent = bootLines[lineIndex];
+                
+                if (lineIndex === bootLines.length - 1) {
+                    const cursor = document.createElement('span');
+                    cursor.className = 'cursor';
+                    line.appendChild(cursor);
+                }
+                
+                bootContainer.appendChild(line);
+                lineIndex++;
+                setTimeout(displayBootLine, lineIndex === bootLines.length ? 1000 : 300);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('boot-screen').style.display = 'none';
+                    document.getElementById('main-content').classList.add('show');
+                }, 1000);
+            }
+        }
+
+        displayBootLine();
+    </script>
+</body>
+</html>
